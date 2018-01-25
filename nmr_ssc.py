@@ -32,16 +32,14 @@ SSC = [ [ 0.00000, 0.00000, 0.00000, 0.00000, 0.00000 ],\
 
 SSC_ppm = lmap( lambda x: lmap( lambda y: y/shift_TMS, x ), SSC )
 
-print(SSC_ppm)
-
 width = 0.01
+
+corr_shifts = partial( lambda a, x: a - x, shift_TMS )
+corr_centers = lmap( corr_shifts, shifts_exp )
 
 '''
 General functions
 '''
-
-corr_shifts = partial( lambda a, x: a - x, shift_TMS )
-corr_centers = lmap( corr_shifts, shifts_exp )
 
 laplace_gen = lambda gamma, x0, x: 0.5 * gamma / ( np.pi * ( (x - x0)**2 + 0.25 * gamma**2)) 
 laplace = partial( laplace_gen, width )
